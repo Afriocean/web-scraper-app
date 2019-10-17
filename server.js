@@ -14,7 +14,10 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 mongoose.connect(MONGODB_URI);
 
 // Hook mongojs configuration to the db variable
-var db = mongoose.connect(databaseUrl);
+mongoose.connect(databaseUrl);
+app.use(express.json())
+app.use(express.static("public"))
+    
 
 app.get("/", function(req, res) {
   res.render("index");
