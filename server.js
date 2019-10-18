@@ -1,10 +1,11 @@
 // Dependencies
 var express = require("express");
 var mongoose = require("mongoose");
-// Require axios and cheerio. This makes the scraping possible
+// Require axios,cheerio and handlebar. This makes the scraping possible
 var axios = require("axios");
 var cheerio = require("cheerio");
-var expresshandlebars = require("express-handlebars")
+var exphbs = require("express-handlebars");
+var db = require ("./models")
 // Initialize Express
 var app = express();
 
@@ -14,13 +15,21 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 mongoose.connect(MONGODB_URI);
 
 // Hook mongojs configuration to the db variable
-mongoose.connect(databaseUrl);
+
 app.use(express.json())
 app.use(express.static("public"))
     
-
+app.engine("handlebars", exphbs({defaultLayout:"main"}));
+app.set("view engine","handlebars")
 app.get("/", function(req, res) {
-  res.render("index");
+//   db.Headline.find({}).then(function(articles){
+//       console.log (articles)
+//       res.render("home");
+//   })
+db.Headline.create({headline:"hello", summary:"hi", url:"hi"}).then(function(articles){
+    console.log (articles);
+    res.render("home");
+})
 });
 
 // Retrieve data from the db

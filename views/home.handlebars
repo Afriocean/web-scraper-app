@@ -1,0 +1,16 @@
+<h1>Update the headline with an id of {{this.id}}</h1>
+
+<form data-id="{{this.id}}" class="update-form">
+
+  <div class="form-group">
+    <label for="head">Headline:</label>
+    <input type="text" id="head" name="headline" value="{{this.headline}}">
+  </div>
+
+  <div class="form-group">
+    <label for="hea">headline:</label>
+    <textarea id="hea" name="headline" rows="8" cols="40">{{this.headline}}</textarea>
+  </div>
+
+  <button type="submit">Update Headline</button>
+</form>

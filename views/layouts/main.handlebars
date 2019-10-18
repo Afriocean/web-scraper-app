@@ -1,0 +1,35 @@
+<h1>Web Scraper App</h1>
+
+<p>Scrape Data with this app</p>
+
+<!-- Pass in data from server.js -->
+<ul>
+  {{#each quotes}}
+  	<li>
+  		<p><span class="label">ID:</span> {{this.id}}</p>
+      <p><span class="label">Headline:</span> {{this.headline}}</p>
+      <p><span class="label">Summary:</span> {{this.summary}}</p>
+
+      <button data-id="{{this.id}}" class="delheadline">Delete</button>
+
+      <a href="/{{this.id}}">Update this headline</a>
+  	</li>
+  {{/each}}
+</ul>
+
+<h2>Add a Headline</h2>
+
+<form class="create-form">
+
+  <div class="form-group">
+    <label for="head">Headline:</label>
+    <input type="text" id="head" name="headline">
+  </div>
+
+  <div class="form-group">
+    <label for="quo">Summary:</label>
+    <textarea id="hea" name="headline" rows="8" cols="40"></textarea>
+  </div>
+
+  <button type="submit">Add Headline</button>
+</form>
