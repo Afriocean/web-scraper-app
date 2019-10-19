@@ -26,16 +26,16 @@ app.get("/", function(req, res) {
 //       console.log (articles)
 //       res.render("home");
 //   })
-db.Headline.create({headline:"hello", summary:"hi", url:"hi"}).then(function(articles){
-    console.log (articles);
-    res.render("home");
-})
+// db.Headline.create({headline:"articles", summary:("hi"), url:("hi"),}).then(function(articles){
+//     console.log (articles);
+//     res.render("home");
+// })
 });
 
 // Retrieve data from the db
 app.get("/all", function(req, res) {
   // Find all results from the scrapedData collection in the db
-  db.scrapedData.find({}, function(error, found) {
+  db.Headline.find({}, function(error, found) {
     // Throw any errors to the console
     if (error) {
       console.log(error);
@@ -49,6 +49,7 @@ app.get("/all", function(req, res) {
 
 // Scrape data from one site and place it into the mongodb db
 app.get("/scrape", function(req, res) {
+    var headlines = [] 
   // Make a request via axios for the news section of `ycombinator`
   axios.get("https://news.ycombinator.com/").then(function(response) {
     // Load the html body from axios into cheerio
@@ -62,26 +63,30 @@ app.get("/scrape", function(req, res) {
       // If this found element had both a title and a link
       if (title && link) {
         // Insert the data in the scrapedData db
-        db.scrapedData.insert({
+        var params ={
           title: title,
           link: link
-        },
-        function(err, inserted) {
-          if (err) {
-            // Log the error if one is encountered during the query
-            console.log(err);
-          }
-          else {
-            // Otherwise, log the inserted data
-            console.log(inserted);
-          }
-        });
+        }
+        console.log (params)
+        headlines.push(params)
+        // db.Headline.insert(params,
+        // function(err, inserted) {
+        //   if (err) {
+        //     // Log the error if one is encountered during the query
+        //     console.log(err);
+        //   }
+        //   else {
+        //     // Otherwise, log the inserted data
+        //     console.log(inserted);
+        //   }
+        // });
       }
     });
-  });
+    res.send("Scrape Complete");
+  })
+  .catch(err => res.send(err))
 
   // Send a "Scrape Complete" message to the browser
-  res.send("Scrape Complete");
 });
 
 
